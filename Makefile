@@ -54,7 +54,8 @@ endif
 
 ARCHFLAGS := $(ARCHFLAGS)
 
-OPTFLAGS  ?= -g -O
+#OPTFLAGS  ?= -g -O
+OPTFLAGS  ?= -g -march=native -O2 -ftree-vectorize -pipe
 
 CFLAGS    += -Wall -Wno-unused-function -Wno-write-strings -Wno-sign-compare $(ARCHFLAGS)
 ifneq ($(findstring arm,$(shell uname -m)),)
@@ -209,7 +210,7 @@ clean:
 	$(VERBOSE)rm -rvf $(PROG) lib$(PROG).a $(OBJ) $(GARBAGE) $(OBJ:.o=.d)
 
 tags:
-	etags `find . -type f -regex '.*\.\(c\|h\)'`
+	ctags `find . -type f -regex '.*\.\(c\|h\)'`
 
 $(PROG): $(OBJ)
 	@echo "$(MSG_PREFIX)\`\` Building binary:" $(notdir $@)
